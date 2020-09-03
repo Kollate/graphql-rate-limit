@@ -10,3 +10,10 @@ test('createRateLimitRule', t => {
   const fieldRule = rule({ max: 1, window: '1s' });
   t.true((fieldRule as any).cache === 'no_cache');
 });
+test('disabled rule', async t => {
+  const rule = createRateLimitRule({
+    identifyContext: ctx => ctx.id,
+    disabled: true
+  });
+  t.true(await rule({}).resolve({}, {}, {} as any, {} as any, {} as any));
+});

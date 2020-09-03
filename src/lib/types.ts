@@ -87,6 +87,7 @@ export interface GraphQLRateLimitConfig {
    */
   readonly formatError?: (input: FormatErrorInput) => string;
   readonly getError?: (err: string) => IRuleResult;
+  readonly disabled?: boolean;
 
   readonly enableBatchRequestCache?: boolean;
 }

@@ -18,6 +18,7 @@ const createRateLimitRule = (config: GraphQLRateLimitConfig) => {
 
   return (fieldConfig: GraphQLRateLimitDirectiveArgs) =>
     noCacheRule(async (parent, args, context, info) => {
+      if (config.disabled) return true;
       const errorMessage = await rateLimiter(
         {
           parent,
