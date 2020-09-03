@@ -1,5 +1,5 @@
 {
-  "name": "graphql-rate-limit",
+  "name": "@kollate/graphql-rate-limit",
   "version": "2.0.1",
   "description": "Add Rate Limiting To Your GraphQL Resolvers 💂‍♀",
   "main": "build/main/index.js",
@@ -9,14 +9,15 @@
   "license": "MIT",
   "keywords": [],
   "scripts": {
-    "build": "concurrently build:*",
+    "build": "./node_modules/.bin/concurrently \"npm run build:main\" \"npm run build:module\"",
     "build:main": "tsc --preserveWatchOutput -p tsconfig.json",
     "build:module": "tsc --preserveWatchOutput -p tsconfig.module.json",
     "example": "concurrently \"yarn build:main -w\" \"cd example && yarn dev\"",
     "fix": "run-s fix:*",
-    "test": "yarn build:main && nyc --silent ava",
-    "lint": "yarn eslint ./src/**/*.ts",
-    "watch": "yarn build:main && concurrently \"yarn build:main -w\" \"yarn test --watch --verbose\""
+    "test": "npm run build:main && nyc --silent ava",
+    "lint": "npm run eslint ./src/**/*.ts",
+    "watch": "npm run build:main && concurrently \"npm run build:main -w\" \"npm run test --watch --verbose\"",
+    "prepublish": "npm run build && npm version patch"
   },
   "engines": {
     "node": ">=8.9"

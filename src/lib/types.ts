@@ -1,3 +1,4 @@
+import { IRuleResult } from 'graphql-shield/dist/types';
 import { Store } from './store';
 
 /**
@@ -85,6 +86,7 @@ export interface GraphQLRateLimitConfig {
    * Custom error messages.
    */
   readonly formatError?: (input: FormatErrorInput) => string;
+  readonly getError?: (err: string) => IRuleResult;
 
   readonly enableBatchRequestCache?: boolean;
 }

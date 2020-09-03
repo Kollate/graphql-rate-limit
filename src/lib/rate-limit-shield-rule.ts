@@ -27,7 +27,10 @@ const createRateLimitRule = (config: GraphQLRateLimitConfig) => {
         },
         fieldConfig
       );
-      return errorMessage ? new RateLimitError(errorMessage) : true;
+      if (!errorMessage) return true;
+      return config.getError
+        ? config.getError(errorMessage)
+        : new RateLimitError(errorMessage);
     });
 };
 
