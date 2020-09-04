@@ -13,11 +13,10 @@ import { RateLimitError } from './rate-limit-error';
  * ```
  */
 const createRateLimitRule = (config: GraphQLRateLimitConfig) => {
-  const noCacheRule = rule({ cache: 'no_cache' });
   const rateLimiter = getGraphQLRateLimiter(config);
-
-  return (fieldConfig: GraphQLRateLimitDirectiveArgs) =>
-    noCacheRule(async (parent, args, context, info) => {
+  return (fieldConfig: GraphQLRateLimitDirectiveArgs) => {
+    const noCacheRule = rule({ cache: 'no_cache' });
+    return noCacheRule(async (parent, args, context, info) => {
       if (config.disabled) return true;
       const errorMessage = await rateLimiter(
         {
@@ -33,6 +32,7 @@ const createRateLimitRule = (config: GraphQLRateLimitConfig) => {
         ? config.getError(errorMessage)
         : new RateLimitError(errorMessage);
     });
+  };
 };
 
 export { createRateLimitRule };
